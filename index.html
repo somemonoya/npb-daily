@@ -464,7 +464,7 @@ function render() {
             </div>
             <div class="score-center">
               <div class="score-num">${g.awayScore} - ${g.homeScore}</div>
-              <div class="score-label">${result.toUpperCase()}</div>
+              <div class="score-label">${g.venue || result.toUpperCase()}</div>
             </div>
             <div class="team-col right">
               <div class="team-name ${homeWin ? 'winner' : ''}">${g.home}</div>
