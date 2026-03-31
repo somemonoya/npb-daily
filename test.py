@@ -102,18 +102,23 @@ def get_all_scores():
     return results
 
 def get_standings():
-    url = "https://npb.jp/bis/eng/2026/standings/"
+    url = "https://npb.jp/bis/2026/stats/"
     r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    r.encoding = 'utf-8'
     soup = BeautifulSoup(r.text, "html.parser")
     tables = soup.find_all("table")
 
     def parse_table(table):
         rows = []
         for tr in table.find_all("tr")[1:]:
-            cols = tr.find_all("td")
+            cols = tr.find_all(["td", "th"])
             if len(cols) >= 6:
+                # hide_pcのspan（短縮名）を使う
+                name_span = cols[0].find("span", class_="hide_sp")
+                name_ja = name_span.text.strip() if name_span else cols[0].text.strip()
+                name = TEAM_NAMES.get(name_ja, name_ja)
                 rows.append({
-                    "name": cols[0].text.strip(),
+                    "name": name,
                     "g": cols[1].text.strip(),
                     "w": cols[2].text.strip(),
                     "l": cols[3].text.strip(),
@@ -124,8 +129,8 @@ def get_standings():
         return rows
 
     return {
-        "central": parse_table(tables[1]) if len(tables) > 1 else [],
-        "pacific": parse_table(tables[3]) if len(tables) > 3 else [],
+        "central": parse_table(tables[0]) if len(tables) > 0 else [],
+        "pacific": parse_table(tables[1]) if len(tables) > 1 else [],
         "updated": datetime.now().strftime("%B %d, %Y")
     }
 
