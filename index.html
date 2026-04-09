@@ -847,10 +847,10 @@ function render() {
               <div class="team-name ${homeWin ? 'winner' : ''}">${g.home}</div>
             </div>
           </div>
-          ${embed
-            ? `<div class="video-wrap"><iframe src="${embed}" allowfullscreen loading="lazy"></iframe></div>`
-            : `<div class="no-video">No video available</div>`
-          }
+        ${g.videoUrl
+          ? `<div class="no-video"><a href="${g.videoUrl}" target="_blank" style="color:#FF0000;font-weight:500;text-decoration:none;">▶ Watch Highlights on YouTube</a></div>`
+          : `<div class="no-video">No video available</div>`
+        }
         </div>`;
     }).join('');
 
