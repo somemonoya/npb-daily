@@ -848,7 +848,16 @@ function render() {
             </div>
           </div>
         ${g.videoUrl
-          ? `<div class="no-video"><a href="${g.videoUrl}" target="_blank" style="color:#FF0000;font-weight:500;text-decoration:none;">▶ Watch Highlights on YouTube</a></div>`
+          ? `<div class="video-thumb">
+              <a href="${g.videoUrl}" target="_blank">
+                <img src="https://img.youtube.com/vi/${g.videoUrl.match(/[?&]v=([^&]+)/)?.[1] || g.videoUrl.match(/youtu\.be\/([^?]+)/)?.[1]}/mqdefault.jpg" 
+                     style="width:100%;display:block;border-radius:0 0 8px 8px;" 
+                     alt="Watch highlights">
+                <div style="position:relative;text-align:center;margin-top:-32px;padding-bottom:8px;">
+                  <span style="background:rgba(0,0,0,0.7);color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;">▶ Watch on YouTube</span>
+                </div>
+              </a>
+            </div>`
           : `<div class="no-video">No video available</div>`
         }
         </div>`;
