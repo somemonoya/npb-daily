@@ -824,7 +824,11 @@ function formatDate(str) {
 }
 
 function render() {
-  const sorted = [...DATA].sort((a, b) => b.date.localeCompare(a.date));
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 7);
+  const sorted = [...DATA]
+    .filter(day => new Date(day.date + 'T00:00:00') >= cutoff)
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   const html = sorted.map(day => {
     const gamesHtml = day.games.map(g => {
